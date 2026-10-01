@@ -1,0 +1,81 @@
+import serial
+import time
+
+
+# ==========================================
+# CONFIGURACIÓN
+# ==========================================
+
+PORT = "COM3"
+BAUDRATE = 9600
+
+
+# ==========================================
+# CONEXIÓN
+# ==========================================
+
+print("Conectando con Arduino...")
+
+arduino = serial.Serial(
+    PORT,
+    BAUDRATE,
+    timeout=1
+)
+
+# Esperar a que Arduino termine de reiniciarse
+time.sleep(2)
+
+print("Arduino conectado.")
+print()
+
+
+# ==========================================
+# ENVIAR COMANDOS
+# ==========================================
+
+while True:
+
+    print("Selecciona una clasificación:")
+    print("1 - GOOD")
+    print("2 - BROKEN")
+    print("3 - DIRTY")
+    print("Q - Salir")
+
+    option = input(">> ").strip().upper()
+
+
+    if option == "1":
+
+        arduino.write(b"GOOD\n")
+        print("Enviado: GOOD")
+
+
+    elif option == "2":
+
+        arduino.write(b"BROKEN\n")
+        print("Enviado: BROKEN")
+
+
+    elif option == "3":
+
+        arduino.write(b"DIRTY\n")
+        print("Enviado: DIRTY")
+
+
+    elif option == "Q":
+
+        break
+
+
+    else:
+
+        print("Opción no válida.")
+
+
+# ==========================================
+# CERRAR
+# ==========================================
+
+arduino.close()
+
+print("Comunicación finalizada.")
